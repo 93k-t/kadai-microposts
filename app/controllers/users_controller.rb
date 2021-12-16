@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :require_user_logged_in, only: [:index, :show]
   def index
     @pagy,@users = pagy(User.order(id: :desc),item:25)
   end
@@ -16,9 +17,11 @@ class UsersController < ApplicationController
     
     if @user.save
       flash[:success] = "ユーザを登録しました。"
+# redirect_to users#showアクションへ強制的に移動させ createアクション実行後さらにshowアクションが実行、show.html.erb を呼ぶ
       redirect_to @user
     else
       flash.now[:danger] = "ユーザの登録に失敗しました。"
+# render :new users/new.html.erb を表示するだけで(users#newアクションは実行しない)
       render :new
     end
   end
