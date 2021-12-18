@@ -8,4 +8,6 @@ class User < ApplicationRecord
                     uniqueness:{case_sensitive: false}
 # uniqueness 重複を許さない
   has_secure_password
+  
+  has_many :microposts
 end
