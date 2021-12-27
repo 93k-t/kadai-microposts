@@ -39,6 +39,13 @@ class UsersController < ApplicationController
     @pagy,@followers = pagy(@user.followers)
     counts(@user)
   end
+  
+  # お気に入り投稿一覧表示
+  def likes
+    @user = User.find(params[:id])
+    @pagy, @likes = pagy(@user.favoritings)
+    counts(@user)
+  end
 
   private
   # Strong Parameter

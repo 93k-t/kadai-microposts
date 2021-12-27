@@ -14,6 +14,18 @@
             <% if current_user == micropost.user %>
               <%= link_to "Delete", micropost,method: :delete, data: {confirm: "You sure?"}, class: "btn btn-danger btn-sm" %>
             <% end %>
+            <!--お気に入り登録/解除ボタン パーシャルで埋め込む-->
+            <% if current_user.favoriting?(micropost) %>
+              <%= form_with(model: current_user.favorites.find_by(micropost_id: micropost.id),method: :delete) do |f| %>
+                <%= hidden_field_tag :micropost_id, micropost.id %>
+                <%= f.submit "Unfavorite", class:"btn btn-danger btn-sm" %>
+              <% end %>
+            <% else %>
+              <%= form_with(model: current_user.favorites.build) do |f| %>
+                <%= hidden_field_tag :micropost_id, micropost.id %>
+                <%= f.submit "Favorite", class: "btn btn-primary btn-sm" %>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </li>
